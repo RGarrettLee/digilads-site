@@ -182,7 +182,7 @@ export default function DeckBuilder( { cards, toggle, setToggle, user, brew, set
       let pos = userDecks.indexOf(brew);
 
       updatedDeck.name = deckName;
-      updatedDeck.coverCard = cover;
+      updatedDeck.coverCard = cover.cardnumber;
       updatedDeck.list = list;
 
       userDecks[pos] = updatedDeck;
