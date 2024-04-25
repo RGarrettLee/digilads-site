@@ -58,7 +58,7 @@ export default function Profile( { user } ) {
                </div>
                <div className='grid grid-cols-2 mb-24'>
                   <div className='flex flex-col items-center font-digivolve'>
-                     {signature_card === null ? (
+                     {signature_card === '' ? (
                         <div className='mt-4'>
                            <button onClick={() => setOpenSelect(true)} className='px-4 py-2 rounded-lg bg-gray-800 hover:bg-gray-600 duration-200 transition-colors'>Set Signature Card</button>
                         </div>  
