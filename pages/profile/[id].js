@@ -51,10 +51,8 @@ export default function Page() {
             </div>
             <div className='grid grid-cols-2 mb-24'>
                <div className='flex flex-col items-center font-digivolve'>
-                  {user.signature_card === '' ? (
-                     <div className='mt-4'>
-                        {/*<button onClick={() => setOpenSelect(true)} className='px-4 py-2 rounded-lg bg-gray-800 hover:bg-gray-600 duration-200 transition-colors'>Set Signature Card</button>*/}
-                     </div>  
+                  {user.signature_card === '' || user.signature_card === null ? (
+                     <></>
                      ) : (
                         <div className='flex flex-col items-center'>
                            <p className='text-2xl'>Signature Card</p>
