@@ -8,7 +8,7 @@ export default function Logout() {
    useEffect(() => {
       async function logout() {
          const { error } = await supabase.auth.signOut();
-         router.reload(window.location.pathname);
+         router.reload(window.location.origin);
       }
 
       logout();
@@ -16,7 +16,7 @@ export default function Logout() {
 
    return (
       <>
-         <h2 className='text-center text-2xl'>logging out...</h2>
+         <h2 className='text-center font-digivolve text-2xl'>logging out...</h2>
       </>
    )
 }
