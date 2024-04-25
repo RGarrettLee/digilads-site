@@ -141,15 +141,16 @@ export default function DeckBuilder( { cards, toggle, setToggle, user, brew, set
       let updatedDeck = deck;
       let save = false;
       let copy = false;
+      let named = false;
 
       updatedDeck.name = deckName;
       updatedDeck.coverCard = cover.cardnumber;
 
       if (deckName === '') {
          window.alert('You need to give your deck a name!');
-         save = false;
+         named = false;
       } else {
-         save = true;
+         named = true;
       }
 
       if (getDeckSize() < 50) {
@@ -169,7 +170,7 @@ export default function DeckBuilder( { cards, toggle, setToggle, user, brew, set
          window.alert('You have a deck with this name already!');
       }
 
-      if (save && !copy) {
+      if (save && !copy && named) {
          userDecks.push(updatedDeck);
          await supabase.from('profiles').update({ decks: userDecks }).eq('full_name', user.full_name);
          resetBuilder();
