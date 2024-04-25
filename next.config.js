@@ -1,6 +1,14 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {
-  reactStrictMode: true,
-}
 
-module.exports = nextConfig
+module.exports = {
+  trailingSlash: true,
+  async redirects() {
+    return [
+      {
+        source: '/logout',
+        destination: '/',
+        permanent: true,
+      }
+    ]
+  },
+}
