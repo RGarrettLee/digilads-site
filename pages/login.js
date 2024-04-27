@@ -14,7 +14,7 @@ export default function Login() {
 
    return (
       <>
-         <h2 className='text-center text-2xl'>logging in...</h2>
+         <h2 className='text-center font-digivolve text-2xl'>logging in...</h2>
       </>
    )
 }

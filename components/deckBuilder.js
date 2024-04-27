@@ -1,4 +1,4 @@
-import { Dialog, Combobox } from '@headlessui/react';
+import { Dialog, Combobox, Switch } from '@headlessui/react';
 import { useState, useEffect } from 'react';
 import CardDialog from '../components/cardDialog';
 import supabase from '../db/connection';
@@ -8,6 +8,7 @@ export default function DeckBuilder( { cards, toggle, setToggle, user, brew, set
    const cardAPI = 'https://digimoncard.io/api-public/search.php?card=';
    const [digimon, setDigimon] = useState({});
    const [showCard, setShowCard] = useState(false);
+   const [nameSearch, setNameSearch] = useState(false);
    const [deck, setDeck] = useState({ name: '', list: [], coverCard: '', wins: 0, losses: 0 });
    const [list, setList] = useState([]);
    const [eggCount, setEggCount] = useState(0);
@@ -199,6 +200,13 @@ export default function DeckBuilder( { cards, toggle, setToggle, user, brew, set
             return card.name.toLowerCase().includes(search.toLowerCase())
          }).splice(0, 100);
 
+   const filteredSets = 
+      search === ''
+         ? []
+         : cards.filter((card) => {
+            return card.cardnumber.toLowerCase().includes(search.toLowerCase())
+         }).splice(0, 100);
+
    return (
       <>
          <Dialog as='div' className='relative z-30' open={toggle} onClose={() => null}>
@@ -210,21 +218,49 @@ export default function DeckBuilder( { cards, toggle, setToggle, user, brew, set
                      <Combobox as='div' className='flex flex-col items-center gap-2' value={digimon} onChange={setDigimon}>
                            <p className='text-lg font-digivolve px-4'>Search Cards</p>
                            <Combobox.Input className='bg-white text-black rounded-lg ring-2 ring-blue-200 py-1 px-2 text-center' autoFocus={true} value={search} onChange={(event) => setSearch(event.target.value)}></Combobox.Input>
+                           <span className='font-digivolve'>{nameSearch ? 'Search by name' : 'Search by set code'}</span>
+                           <Switch
+                              checked={nameSearch}
+                              onChange={setNameSearch}
+                              className={`${nameSearch ? 'bg-gray-500' : 'bg-blue-600'} relative inline-flex gap-4 h-6 px-4 w-auto items-center rounded-full`}
+                           >
+                              <span className={`${nameSearch ? 'translate-x-3' : '-translate-x-3'} inline-block h-4 w-4 transform rounded-full bg-white transition`} />
+                           </Switch>
                            <Combobox.Options className='sticky overflow-y-scroll no-scrollbar h-96 z-30'>
                               <ul className='flex flex-col items-center rounded-lg bg-slate-600'>
-                                 {filteredDigimon.map((card, index) => (
-                                    <div key={index}>
-                                       <button onClick={() => selectedDigimon(card)} className='hover:bg-slate-500 hover:rounded-md'>
-                                          <Combobox.Option className={`text-center p-2 w-80 ${index === filteredDigimon.length-1 ? '' : 'border-b'}`} value={card}>
-                                             <div className='flex flex-col items-center'>
-                                                <img className='rounded-2xl' src={`${artAPI}${card['cardnumber']}.jpg`} alt='card image' height={deskImg} width={deskImg}></img>
-                                                <p>{card.name}</p>
-                                                <p className='text-sm font-semibold'>{card.cardnumber}</p>
-                                             </div>
-                                          </Combobox.Option>
-                                       </button>
-                                    </div>
-                                 ))}
+                                 {!nameSearch ? (
+                                    <>
+                                       {filteredSets.map((card, index) => (
+                                          <div key={index}>
+                                             <button onClick={() => selectedDigimon(card)} className='hover:bg-slate-500 hover:rounded-md'>
+                                                <Combobox.Option className={`text-center p-2 w-80 ${index === filteredSets.length-1 ? '' : 'border-b'}`} value={card}>
+                                                   <div className='flex flex-col items-center'>
+                                                      <img className='rounded-2xl' src={`${artAPI}${card['cardnumber']}.jpg`} alt='card image' height={deskImg} width={deskImg}></img>
+                                                      <p>{card.name}</p>
+                                                      <p className='text-sm font-semibold'>{card.cardnumber}</p>
+                                                   </div>
+                                                </Combobox.Option>
+                                             </button>
+                                          </div>
+                                       ))}
+                                    </>
+                                 ) : (
+                                    <>
+                                       {filteredDigimon.map((card, index) => (
+                                          <div key={index}>
+                                             <button onClick={() => selectedDigimon(card)} className='hover:bg-slate-500 hover:rounded-md'>
+                                                <Combobox.Option className={`text-center p-2 w-80 ${index === filteredDigimon.length-1 ? '' : 'border-b'}`} value={card}>
+                                                   <div className='flex flex-col items-center'>
+                                                      <img className='rounded-2xl' src={`${artAPI}${card['cardnumber']}.jpg`} alt='card image' height={deskImg} width={deskImg}></img>
+                                                      <p>{card.name}</p>
+                                                      <p className='text-sm font-semibold'>{card.cardnumber}</p>
+                                                   </div>
+                                                </Combobox.Option>
+                                             </button>
+                                          </div>
+                                       ))}
+                                    </>
+                                 )}
                               </ul>
                            </Combobox.Options>
                         </Combobox>
