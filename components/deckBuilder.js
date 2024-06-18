@@ -86,7 +86,7 @@ export default function DeckBuilder( { cards, toggle, setToggle, user, brew, set
       let update = false;
 
       list.map((digi) => {
-         if (digi.id === card.cardnumber) {
+         if (digi.id === card.id) {
             add = false;
          }
       });
@@ -118,13 +118,13 @@ export default function DeckBuilder( { cards, toggle, setToggle, user, brew, set
          let newList = list;
          newList.push({
             name: card.name,
-            id: card.cardnumber,
-            desc: card.maineffect,
-            inherited: card.soureeffect,
+            id: card.id,
+            desc: card.main_effect,
+            inherited: card.source_effect,
             type: card.type,
             level: card.level,
             quantity: parseInt(quantity),
-            image: `${artAPI}${card.cardnumber}.jpg`
+            image: `${artAPI}${card.id}.jpg`
          });
          // sort list
          newList.sort((a, b) => {
@@ -145,7 +145,7 @@ export default function DeckBuilder( { cards, toggle, setToggle, user, brew, set
       let named = false;
 
       updatedDeck.name = deckName;
-      updatedDeck.coverCard = cover.cardnumber;
+      updatedDeck.coverCard = cover.id;
 
       if (deckName === '') {
          window.alert('You need to give your deck a name!');
@@ -184,7 +184,7 @@ export default function DeckBuilder( { cards, toggle, setToggle, user, brew, set
       let pos = userDecks.indexOf(brew);
 
       updatedDeck.name = deckName;
-      updatedDeck.coverCard = cover.cardnumber;
+      updatedDeck.coverCard = cover.id;
       updatedDeck.list = list;
 
       userDecks[pos] = updatedDeck;
@@ -272,12 +272,12 @@ export default function DeckBuilder( { cards, toggle, setToggle, user, brew, set
                      <div className='flex flex-col items-center justify-center'>
                         <div className='flex flex-col items-center justify-center gap-2'>
                            <p className='text-2xl font-digivolve'>Deck List | {getDeckSize()} cards in deck</p>
-                           <div className='grid grid-cols-4 grid-rows-subgrid items-center justify-center gap-1'>
+                           <div className='grid grid-cols-4 grid-rows-subgrid items-center justify-center gap-4'>
                               {list.map((card, index) => (
                                  <>
                                     {card.type !== 'Digi-Egg' ? (
                                        <div className='flex flex-col justify-center items-center gap-2' key={index}>
-                                          <img className='rounded-lg' src={card.image} alt='card art' height={100} width={100} />
+                                          <img className='rounded-lg' src={card.image} alt='card art' height={175} width={175} />
                                           <div className='flex flex-col items-center justify-center'>
                                              <p className='text-center font-thin'>{card.name} <span className='text-green-500 font-bold'>x{card.quantity}</span></p>
                                              <p className='text-center font-thin'>{card.id}</p>
@@ -291,7 +291,7 @@ export default function DeckBuilder( { cards, toggle, setToggle, user, brew, set
                                                       newList[index].quantity = event.target.value;
                                                       setList([...newList]);
                                                    }
-                                                }} className='text-center rounded-lg w-11'></input>
+                                                }} className='text-center rounded-lg w-11 bg-slate-700'></input>
                                                 <button onClick={() => {
                                                    let newList = list;
                                                    newList.splice(index, 1);
@@ -311,8 +311,8 @@ export default function DeckBuilder( { cards, toggle, setToggle, user, brew, set
                               {list.map((card, index) => (
                                  <>
                                     {card.type === 'Digi-Egg' ? (
-                                       <div className='flex flex-col justify-center items-center gap-2' key={index}>
-                                          <img className='rounded-lg' src={card.image} alt='card art' height={100} width={100} />
+                                       <div className='flex flex-col justify-center items-center gap-4' key={index}>
+                                          <img className='rounded-lg' src={card.image} alt='card art' height={175} width={175} />
                                           <div className='flex flex-col items-center justify-center'>
                                              <p className='text-center font-thin'>{card.name} <span className='text-green-500 font-bold'>x{card.quantity}</span></p>
                                              <p className='text-center font-thin'>{card.id}</p>
@@ -327,7 +327,7 @@ export default function DeckBuilder( { cards, toggle, setToggle, user, brew, set
                                                       newList[index].quantity = event.target.value;
                                                       setList([...newList]);
                                                    }
-                                                }} className='text-center rounded-lg w-11'></input>
+                                                }} className='text-center rounded-lg w-11 bg-slate-700'></input>
                                                 <button onClick={() => {
                                                       let newList = list;
                                                       setEggCount(eggCount - list[index].quantity);

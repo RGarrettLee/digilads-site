@@ -11,19 +11,19 @@ export default function CardDialog({ toggle, setToggle, card, addToDeck, quantit
                   <Dialog.Panel className='flex flex-col items-center justify-center bg-gray-700 py-2 rounded-2xl px-2 gap-2 w-96'>
                      <Dialog.Title className='text-2xl font-digivolve'>{card.name}</Dialog.Title>
                      <div className='flex flex-col items-center justify-center gap-2'>
-                        <img className='rounded-2xl' src={`${artAPI}${card.cardnumber}.jpg`} alt='card image' height={300} width={300} />
-                        {card?.maineffect ? (
+                        <img className='rounded-2xl' src={`${artAPI}${card.id}.jpg`} alt='card image' height={300} width={300} />
+                        {card?.main_effect ? (
                            <>
                               <p className='text-lg font-digivolve underline underline-offset-4'>= Card Effect =</p>
-                              <p className='text-center text-md font-thin'>{card.maineffect}</p>
+                              <p className='text-center text-md font-thin'>{card.main_effect}</p>
                            </>
                         ) : (
                            <></>
                         )}
-                        {card?.soureeffect ? (
+                        {card?.source_effect ? (
                            <>
                               <p className='text-lg font-digivolve underline underline-offset-4'>= Inherited Effect =</p>
-                              <p className='text-center text-md font-thin'>{card.soureeffect}</p>
+                              <p className='text-center text-md font-thin'>{card.source_effect}</p>
                            </>
                         ) : (
                            <></>

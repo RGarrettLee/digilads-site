@@ -16,7 +16,7 @@ export default function Profile( { user } ) {
    
    useEffect(() => {
       async function getAllCards() {
-         fetch('https://digimoncard.io/api-public/getAllCards.php?sort=name&series=Digimon Card Game&sortdirection=asc')
+         fetch('https://digimoncard.io/api-public/getAllCards.php?sort=id&sortdirection=asc')
          .then((response) => response.json())
          .then((result) => {
             setAllCards([...result]);
