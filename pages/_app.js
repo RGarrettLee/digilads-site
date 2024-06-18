@@ -21,7 +21,7 @@ export default function App({ Component, pageProps }) {
       let updateAvatar = false;
 
       if (auth.length !== 0) {
-        await supabase.from('profiles').select('id, full_name, avatar_url, signature_card, decks')
+        await supabase.from('profiles').select('id, full_name, avatar_url, signature_card, decks, packs')
         .then((result) => {
           result.data.map((user) => {
             if (user.id === auth.id) {

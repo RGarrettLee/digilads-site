@@ -2,17 +2,20 @@ import { useState, useEffect } from 'react';
 import SelectCardModal from '../components/selectCardModal';
 import DeckBuilder from '../components/deckBuilder';
 import ViewDeck from '../components/viewDeck';
+import PackBreakdown from '../components/packBreakdown';
 import supabase from '../db/connection';
 
 export default function Profile( { user } ) {
-   const { full_name, avatar_url, signature_card, decks } = user;
+   const { full_name, avatar_url, signature_card, decks, packs } = user;
    const artAPI = 'https://images.digimoncard.io/images/cards/';
    const [allCards, setAllCards] = useState([]);
    const [openSelect, setOpenSelect] = useState(false);
    const [openDeck, setOpenDeck] = useState(false);
    const [openView, setOpenView] = useState(false);
+   const [openPack, setOpenPack] = useState(false);
    const [deck, setDeck] = useState({});
    const [view, setView] = useState({list: []});
+   const [pack, setPack] = useState({});
    
    useEffect(() => {
       async function getAllCards() {
@@ -31,9 +34,31 @@ export default function Profile( { user } ) {
       setOpenView(true);
    }
 
+   function viewPack(pack) {
+      setPack(pack);
+      setOpenPack(true);
+   }
+
    function editDeck(deck) {
       setDeck(deck);
       setOpenDeck(true);
+   }
+
+   async function deletePack(pack) {
+      let userPacks = packs;
+      let pos = userPacks.indexOf(pack);
+      console.log(userPacks);
+      let confirm = prompt(`Type the name of your pack to confirm deletion: ${pack.setName}`);
+
+      if (confirm === pack.setName) {
+         if (userPacks.length > 1) {
+            userPacks.split(pos, 1);
+         } else {
+            userPacks.shift();
+         }
+         await supabase.from('profiles').update({ packs: userPacks }).eq('full_name', full_name);
+         window.location.reload();
+      }
    }
 
    async function deleteDeck(deck) {
@@ -42,7 +67,11 @@ export default function Profile( { user } ) {
       let confirm = prompt(`Type the name of your deck to confirm deletion: ${deck.name}`);
 
       if (confirm === deck.name) {
-         userDecks.splice(pos, 1);
+         if (userDecks.length > 1) {
+            userDecks.splice(pos, 1);
+         } else {
+            userDecks.shift();
+         }
          await supabase.from('profiles').update({ decks: userDecks }).eq('full_name', user.full_name);
          window.location.reload();
       }
@@ -85,8 +114,8 @@ export default function Profile( { user } ) {
                                  ) : (
                                     <></>
                                  )}
-                                 <p className='text-md'>Wins <span className='text-lg font-semibold text-green-600'>{deck.wins}</span> / Losses <span className='text-lg font-semibold text-red-500'>{deck.losses}</span></p>
-                                 <div className='flex items-center gap-2'>
+                                 {/*<p className='text-md'>Wins <span className='text-lg font-semibold text-green-600'>{deck.wins}</span> / Losses <span className='text-lg font-semibold text-red-500'>{deck.losses}</span></p>*/}
+                                 <div className='flex items-center gap-2 mt-2'>
                                     <button onClick={() => viewDeck(deck)} className='px-4 py-2 font-semibold bg-green-600 hover:bg-green-500 active:bg-green-400 rounded-lg duration-200 transition-colors'>View</button>
                                     <button onClick={() => editDeck(deck)} className='px-4 py-2 font-semibold bg-yellow-500 hover:bg-yellow-400 active:bg-yellow-300 rounded-lg duration-200 transition-colors'>Edit</button>
                                     <button onClick={() => deleteDeck(deck)} className='px-4 py-2 font-semibold bg-red-700 hover:bg-red-600 active:bg-red-500 rounded-lg duration-200 transition-colors'>Delete</button>
@@ -97,10 +126,17 @@ export default function Profile( { user } ) {
                         ))}
                      </div>
                      <div className='flex flex-col items-center'>
-                        <h2 className='text-2xl font-digivolve'>Stats</h2>
-                     </div>
-                     <div className='flex flex-col items-center'>
-                        <h2 className='text-2xl font-digivolve'>History</h2>
+                        <h2 className='text-2xl font-digivolve'>Opened Packs</h2>
+                        {packs.map((pack, index) => (
+                           <div className='flex flex-col items-center justify-center gap-2' key={index}>
+                              <h2 className='text-xl font-digivolve'>{pack.setName}</h2>
+                              <div className='flex items-center justify-center gap-2'>
+                                 <button onClick={() => viewPack(pack)} className='px-4 py-2 font-semibold bg-green-600 hover:bg-green-500 active:bg-green-400 rounded-lg duration-200 transition-colors'>View</button>
+                                 <button onClick={() => deletePack(pack)} className='px-4 py-2 font-semibold bg-red-700 hover:bg-red-600 active:bg-red-500 rounded-lg duration-200 transition-colors'>Delete</button>
+                              </div>
+                              <PackBreakdown collectedCards={pack.collectedCards} levelCards={pack.levelCards} attributeCards={pack.attributeCards} colourCards={pack.colourCards} typeCards={pack.typeCards} rarityCards={pack.rarityCards} digiTypeCards={pack.digiTypeCards} setName={pack.setName} toggle={openPack} setToggle={setOpenPack} user={user} profile={true} />
+                           </div>
+                        ))}
                      </div>
                   </div>
                </div>
@@ -120,5 +156,12 @@ TODO
 
 figure out what is making is so when you close the team builder the unsaved changes persist
 add pie chart using chart.js to team builder/team viewer to get a breakdown on levels & types of cards in deck
+
+                     <div className='flex flex-col items-center'>
+                        <h2 className='text-2xl font-digivolve'>Stats</h2>
+                     </div>
+                     <div className='flex flex-col items-center'>
+                        <h2 className='text-2xl font-digivolve'>History</h2>
+                     </div>
 
 */

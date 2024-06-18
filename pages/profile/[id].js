@@ -2,6 +2,7 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import SelectCardModal from '../../components/selectCardModal';
 import ViewDeck from '../../components/viewDeck';
+import PackBreakdown from '../../components/packBreakdown';
 import supabase from '../../db/connection';
 
 export default function Page() {
@@ -11,11 +12,13 @@ export default function Page() {
    const [openSelect, setOpenSelect] = useState(false);
    const [openView, setOpenView] = useState(false);
    const [view, setView] = useState({list: []});
+   const [openPack, setOpenPack] = useState(false);
+   const [pack, setPack] = useState({});
    const router = useRouter();
 
    useEffect(() => {
       async function getUsers() {
-         await supabase.from('profiles').select('full_name, avatar_url, signature_card, decks') // grab all relevant profile data
+         await supabase.from('profiles').select('full_name, avatar_url, signature_card, decks, packs') // grab all relevant profile data
          .then((result) => {
             let notfound = true;
             setUsers([...result.data]);
@@ -39,6 +42,11 @@ export default function Page() {
    function viewDeck(deck) {
       setView(deck);
       setOpenView(true);
+   }
+
+   function viewPack(pack) {
+      setPack(pack);
+      setOpenPack(true);
    }
 
    return (
@@ -93,10 +101,16 @@ export default function Page() {
                      )}
                   </div>
                   <div className='flex flex-col items-center'>
-                     <h2 className='text-2xl font-digivolve'>Stats</h2>
-                  </div>
-                  <div className='flex flex-col items-center'>
-                     <h2 className='text-2xl font-digivolve'>History</h2>
+                     <h2 className='text-2xl font-digivolve'>Opened Packs</h2>
+                     {user?.packs.map((pack, index) => (
+                        <div className='flex flex-col items-center justify-center gap-2' key={index}>
+                           <h2 className='text-xl font-digivolve'>{pack.setName}</h2>
+                           <div className='flex items-center justify-center gap-2'>
+                              <button onClick={() => viewPack(pack)} className='px-4 py-2 font-semibold bg-green-600 hover:bg-green-500 active:bg-green-400 rounded-lg duration-200 transition-colors'>View</button>
+                           </div>
+                           <PackBreakdown collectedCards={pack.collectedCards} levelCards={pack.levelCards} attributeCards={pack.attributeCards} colourCards={pack.colourCards} typeCards={pack.typeCards} rarityCards={pack.rarityCards} digiTypeCards={pack.digiTypeCards} setName={pack.setName} toggle={openPack} setToggle={setOpenPack} user={user} profile={true} />
+                        </div>
+                     ))}
                   </div>
                </div>
             </div>

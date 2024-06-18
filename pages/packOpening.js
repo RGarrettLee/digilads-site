@@ -3,7 +3,7 @@ import PackSelector from '../components/packSelector';
 import PackBreakdown from '../components/packBreakdown';
 import supabase from '../db/connection';
 
-export default function PackOpening() {
+export default function PackOpening({ user }) {
    const cardAPI = 'https://digimoncard.io/api-public/search.php?card=';
    const artAPI = 'https://images.digimoncard.io/images/cards/';
    const [allCards, setAllCards] = useState([]);
@@ -170,12 +170,6 @@ export default function PackOpening() {
       setSetCards([...newCards]);
    }
 
-   // UTILIZE card.rarity IN BREAKDOWN PAGE
-   // group by rarity: C -> U -> R -> SR -> SEC
-   // group by attributes
-   // group by levels
-   // group by colours. if color2 is in a colour group, add it
-
    function generateBreakdown() {
       let collectedCards = [];
       let rarities = [];
@@ -298,8 +292,6 @@ export default function PackOpening() {
          });
       });
 
-      console.log(attributeCards);
-
       setLevelCards(levelCards);
       setRarityCards(rarityCards);
       setAttributeCards(attributeCards);
@@ -347,20 +339,7 @@ export default function PackOpening() {
                <button onClick={() => generateBreakdown()} className='px-4 py-2 font-digivolve bg-green-700 hover:bg-green-600 active:bg-green-500 rounded-lg duration-200 transition-colors'>Show Breakdown</button>
             </div>
          </div>
-         <PackBreakdown collectedCards={collectedCards} levelCards={levelCards} attributeCards={attributeCards} colourCards={colourCards} typeCards={typeCards} rarityCards={rarityCards} digiTypeCards={digiTypeCards} setName={setName} toggle={breakdownToggle} setToggle={setBreakdownToggle} />
+         <PackBreakdown collectedCards={collectedCards} levelCards={levelCards} attributeCards={attributeCards} colourCards={colourCards} typeCards={typeCards} rarityCards={rarityCards} digiTypeCards={digiTypeCards} setName={setName} toggle={breakdownToggle} setToggle={setBreakdownToggle} user={user} profile={false} />
       </div>
    )
 }
-
-/*               {rarities.map((rarity, index) => (
-                  <div className='flex gap-3 my-1' key={index}>
-                     <p className='font-digivolve text-xl'>{rarity}: {rarityCount[index]}</p>
-                  </div>
-               ))}
-
-/*
-
-TODO:
-- Select a set 
-
-*/

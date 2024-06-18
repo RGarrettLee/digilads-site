@@ -1,9 +1,25 @@
 import { Dialog, Disclosure } from '@headlessui/react';
-import { useState, useEffect } from 'react';
 import supabase from '../db/connection';
 
-export default function PackBreakdown({ collectedCards, levelCards, attributeCards, colourCards, typeCards, rarityCards, digiTypeCards, setName, toggle, setToggle }) {
-   const artAPI = 'https://images.digimoncard.io/images/cards/';
+export default function PackBreakdown({ collectedCards, levelCards, attributeCards, colourCards, typeCards, rarityCards, digiTypeCards, setName, toggle, setToggle, user, profile }) {
+
+   async function savePack() {
+      let userPacks = user.packs;
+      let savedPack = {};
+      savedPack['collectedCards'] = collectedCards;
+      savedPack['levelCards'] = levelCards;
+      savedPack['attributeCards'] = attributeCards;
+      savedPack['colourCards'] = colourCards;
+      savedPack['typeCards'] = typeCards;
+      savedPack['rarityCards'] = rarityCards;
+      savedPack['digiTypeCards'] = digiTypeCards;
+      savedPack['setName'] = setName;
+
+      userPacks.push(savedPack);
+
+      await supabase.from('profiles').update({ packs: userPacks }).eq('full_name', user.full_name);
+      alert(`Successfully saved ${setName} pack opening to your profile!`);
+   }
 
    return (
       <>
@@ -205,6 +221,12 @@ export default function PackBreakdown({ collectedCards, levelCards, attributeCar
                               </div>
                            </Disclosure.Panel>
                         </Disclosure>
+                        {!profile ? (
+                           <button onClick={() => savePack()} className='px-4 py-2 bg-green-600 hover:bg-green-500 active:bg-green-400 rounded-lg font-digivolve text-xl'>Save to profile</button>
+                        ) : (
+                           <></>
+                        )}
+                        {/* put pack breakdown chart here: just on card type ratios in a pie/doughnut chart*/}
                      </Dialog.Panel>
                   </div>
                </div>
