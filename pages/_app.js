@@ -27,6 +27,7 @@ export default function App({ Component, pageProps }) {
             if (user.id === auth.id) {
               setUser(user);
               if (user.avatar_url !== auth.user_metadata.avatar_url) {
+                console.log(auth.user_metadata.avatar_url);
                 updateAvatar = true;
               }
             }
@@ -35,7 +36,7 @@ export default function App({ Component, pageProps }) {
       }
 
       if (updateAvatar) {
-        await supabase.from('profiles').update({avatar_url: avatar_url}).eq(user.id === auth.id);
+        await supabase.from('profiles').update({ avatar_url: auth.user_metadata.avatar_url }).eq('id', auth.id);
       }
     }
 
