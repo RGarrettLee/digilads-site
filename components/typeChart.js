@@ -21,7 +21,7 @@ export default function TypeChart({ typeData, typeLabels }) {
                   {
                      label: 'Type Count',
                      data: typeData,
-                     backgroundColor: ['white', 'aqua', 'gold', 'blue'],
+                     backgroundColor: ['white', 'aqua', 'lime', 'red'],
                      borderColor: 'black',
                      borderWidth: 1,
                   },
