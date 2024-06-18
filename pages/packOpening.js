@@ -20,6 +20,8 @@ export default function PackOpening({ user }) {
    const [typeCards, setTypeCards] = useState({});
    const [rarityCards, setRarityCards] = useState({});
    const [digiTypeCards, setDigiTypeCards] = useState({});
+   const [typeLabels, setTypeLabels] = useState([]);
+   const [typeData, setTypeData] = useState([]);
    const rarities = ['C', 'U', 'R', 'SR', 'SEC'];
 
    useEffect(() => {
@@ -184,6 +186,7 @@ export default function PackOpening({ user }) {
       let levelCards = {};
       let colours = [];
       let colourCards = {};
+      let typeData = [];
 
       setCards.map((card) => {
          if (card.quantity > 0) {
@@ -229,6 +232,7 @@ export default function PackOpening({ user }) {
       });
 
       levels.sort();
+      cardTypes.sort();
 
       levels.map((level) => {
          if (!isNaN(level)) {
@@ -292,12 +296,38 @@ export default function PackOpening({ user }) {
          });
       });
 
+      let data = {types: {}};
+
+      cardTypes.map((type) => {
+         data.types[type] = 0;
+      });
+
+      collectedCards.map((card) => {
+         cardTypes.map((type) => {
+            if (card.type === type) {
+               data.types[type] += card.quantity;
+            }
+         });
+      });
+
+      cardTypes.map((type) => {
+         Object.keys(data.types).map((ind) => {
+            if (ind === type) {
+               typeData.push(data.types[ind]);
+            }
+         });
+      });
+
+      console.log(typeData);
+
       setLevelCards(levelCards);
       setRarityCards(rarityCards);
       setAttributeCards(attributeCards);
       setTypeCards(cardTypeCards);
       setColourCards(colourCards);
       setDigiTypeCards(digiTypeCards);
+      setTypeLabels(cardTypes);
+      setTypeData(typeData);
       setBreakdownToggle(true);
    }
 
@@ -339,7 +369,7 @@ export default function PackOpening({ user }) {
                <button onClick={() => generateBreakdown()} className='px-4 py-2 font-digivolve bg-green-700 hover:bg-green-600 active:bg-green-500 rounded-lg duration-200 transition-colors'>Show Breakdown</button>
             </div>
          </div>
-         <PackBreakdown collectedCards={collectedCards} levelCards={levelCards} attributeCards={attributeCards} colourCards={colourCards} typeCards={typeCards} rarityCards={rarityCards} digiTypeCards={digiTypeCards} setName={setName} toggle={breakdownToggle} setToggle={setBreakdownToggle} user={user} profile={false} />
+         <PackBreakdown collectedCards={collectedCards} levelCards={levelCards} attributeCards={attributeCards} colourCards={colourCards} typeCards={typeCards} rarityCards={rarityCards} digiTypeCards={digiTypeCards} setName={setName} toggle={breakdownToggle} setToggle={setBreakdownToggle} typeLabels={typeLabels} typeData={typeData} user={user} profile={false} />
       </div>
    )
 }

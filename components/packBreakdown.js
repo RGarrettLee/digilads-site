@@ -1,7 +1,8 @@
 import { Dialog, Disclosure } from '@headlessui/react';
+import BreakdownGraph from '../components/breakdownGraph'; 
 import supabase from '../db/connection';
 
-export default function PackBreakdown({ collectedCards, levelCards, attributeCards, colourCards, typeCards, rarityCards, digiTypeCards, setName, toggle, setToggle, user, profile }) {
+export default function PackBreakdown({ collectedCards, levelCards, attributeCards, colourCards, typeCards, rarityCards, digiTypeCards, setName, toggle, setToggle, typeLabels, typeData, user, profile }) {
 
    async function savePack() {
       let userPacks = user.packs;
@@ -14,6 +15,8 @@ export default function PackBreakdown({ collectedCards, levelCards, attributeCar
       savedPack['rarityCards'] = rarityCards;
       savedPack['digiTypeCards'] = digiTypeCards;
       savedPack['setName'] = setName;
+      savedPack['typeLabels'] = typeLabels;
+      savedPack['typeData'] = typeData;
 
       userPacks.push(savedPack);
 
@@ -227,6 +230,7 @@ export default function PackBreakdown({ collectedCards, levelCards, attributeCar
                            <></>
                         )}
                         {/* put pack breakdown chart here: just on card type ratios in a pie/doughnut chart*/}
+                        <BreakdownGraph typeLabels={typeLabels} typeData={typeData} />
                      </Dialog.Panel>
                   </div>
                </div>

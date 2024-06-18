@@ -108,7 +108,7 @@ export default function Page() {
                            <div className='flex items-center justify-center gap-2'>
                               <button onClick={() => viewPack(pack)} className='px-4 py-2 font-semibold bg-green-600 hover:bg-green-500 active:bg-green-400 rounded-lg duration-200 transition-colors'>View</button>
                            </div>
-                           <PackBreakdown collectedCards={pack.collectedCards} levelCards={pack.levelCards} attributeCards={pack.attributeCards} colourCards={pack.colourCards} typeCards={pack.typeCards} rarityCards={pack.rarityCards} digiTypeCards={pack.digiTypeCards} setName={pack.setName} toggle={openPack} setToggle={setOpenPack} user={user} profile={true} />
+                           <PackBreakdown collectedCards={pack.collectedCards} levelCards={pack.levelCards} attributeCards={pack.attributeCards} colourCards={pack.colourCards} typeCards={pack.typeCards} rarityCards={pack.rarityCards} digiTypeCards={pack.digiTypeCards} setName={pack.setName} toggle={openPack} setToggle={setOpenPack} typeLabels={pack.typeLabels} typeData={pack.typeData} user={user} profile={true} />
                         </div>
                      ))}
                   </div>

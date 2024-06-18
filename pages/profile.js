@@ -134,7 +134,7 @@ export default function Profile( { user } ) {
                                  <button onClick={() => viewPack(pack)} className='px-4 py-2 font-semibold bg-green-600 hover:bg-green-500 active:bg-green-400 rounded-lg duration-200 transition-colors'>View</button>
                                  <button onClick={() => deletePack(pack)} className='px-4 py-2 font-semibold bg-red-700 hover:bg-red-600 active:bg-red-500 rounded-lg duration-200 transition-colors'>Delete</button>
                               </div>
-                              <PackBreakdown collectedCards={pack.collectedCards} levelCards={pack.levelCards} attributeCards={pack.attributeCards} colourCards={pack.colourCards} typeCards={pack.typeCards} rarityCards={pack.rarityCards} digiTypeCards={pack.digiTypeCards} setName={pack.setName} toggle={openPack} setToggle={setOpenPack} user={user} profile={true} />
+                              <PackBreakdown collectedCards={pack.collectedCards} levelCards={pack.levelCards} attributeCards={pack.attributeCards} colourCards={pack.colourCards} typeCards={pack.typeCards} rarityCards={pack.rarityCards} digiTypeCards={pack.digiTypeCards} setName={pack.setName} toggle={openPack} setToggle={setOpenPack} typeLabels={pack.typeLabels} typeData={pack.typeData} user={user} profile={true} />
                            </div>
                         ))}
                      </div>
