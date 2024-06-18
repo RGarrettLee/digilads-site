@@ -8,8 +8,10 @@ export default function ViewDeck({ toggle, setToggle, deck, user }) {
    const [levelData, setLevelData] = useState([]);
    const [typeData, setTypeData] = useState([]);
    const [typeLabels, setTypeLabels] = useState([]);
+   const [levelLabels, setLevelLabels] = useState([]);
 
    useEffect(() => {
+      console.log(deck);
       let data = {levels: {}, types: {}};
       let levels = [];
       let types = [];
@@ -42,7 +44,12 @@ export default function ViewDeck({ toggle, setToggle, deck, user }) {
       });
 
       let levelCount = [];
+      let levelLabels = [];
       let typeCount = [];
+
+      levels.map((level) => {
+         levelLabels.push(`Lvl ${level}`);
+      });
 
       Object.keys(data.levels).map((level) => {
          levelCount.push(data.levels[level]);
@@ -60,6 +67,7 @@ export default function ViewDeck({ toggle, setToggle, deck, user }) {
       setLevelData(levelCount);
       setTypeData(typeCount);
       setTypeLabels(types);
+      setLevelLabels(levelLabels);
 
    }, [deck])
 
@@ -115,7 +123,7 @@ export default function ViewDeck({ toggle, setToggle, deck, user }) {
                         <div className='flex items-center justify-center'>
                            <div className='flex flex-col items-center'>
                               <p className='font-digivolve text-xl'>Level Chart</p>
-                              <LevelChart levelData={levelData} levelLabels={Object.keys(deckData.levels)} />
+                              <LevelChart levelData={levelData} levelLabels={levelLabels} />
                            </div>
                            <div className='flex flex-col items-center'>
                               <p className='font-digivolve text-xl'>Type Chart</p>
