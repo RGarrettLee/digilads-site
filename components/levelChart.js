@@ -21,8 +21,8 @@ export default function LevelChart({ levelData, levelLabels }) {
                   {
                      label: 'Quantity',
                      data: levelData,
-                     backgroundColor: 'aqua',
-                     borderColor: 'teal',
+                     backgroundColor: 'orange',
+                     borderColor: 'red',
                      borderWidth: 1,
                   },
                ],
@@ -34,7 +34,7 @@ export default function LevelChart({ levelData, levelLabels }) {
                   },
                   y: {
                      beginAtZero: true
-                  }
+                  },
                }
             }
          });
