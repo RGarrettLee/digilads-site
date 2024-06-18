@@ -40,10 +40,16 @@ export default function LevelChart({ levelData, levelLabels }) {
                },
                scales: {
                   x: {
-                     type: 'category'
+                     type: 'category',
+                     ticks: {
+                        color: 'white',
+                     }
                   },
                   y: {
-                     beginAtZero: true
+                     beginAtZero: true,
+                     ticks: {
+                        color: 'white',
+                     }
                   },
                }
             }
