@@ -28,6 +28,16 @@ export default function LevelChart({ levelData, levelLabels }) {
                ],
             },
             options: {
+               plugins: {
+                  legend: {
+                     labels: {
+                        color: 'white',
+                        font: {
+                           size: 15
+                        }
+                     }
+                  }
+               },
                scales: {
                   x: {
                      type: 'category'

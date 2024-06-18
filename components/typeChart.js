@@ -28,6 +28,16 @@ export default function TypeChart({ typeData, typeLabels }) {
                ],
             },
             options: {
+               plugins: {
+                  legend: {
+                     labels: {
+                        color: 'white',
+                        font: {
+                           size: 15
+                        }
+                     }
+                  }
+               }
             }
          });
 
