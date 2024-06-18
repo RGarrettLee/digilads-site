@@ -199,7 +199,9 @@ export default function PackOpening() {
 
       collectedCards.map((card) => {
          if (!attributes.includes(card.attribute)) {
-            attributes.push(card.attribute);
+            if (card.type === 'Digimon') {
+               attributes.push(card.attribute);
+            }
          }
          if (!cardTypes.includes(card.type)) {
             cardTypes.push(card.type);
@@ -231,7 +233,7 @@ export default function PackOpening() {
             }
          }
       });
-      attributes.shift();
+
       levels.sort();
 
       levels.map((level) => {
@@ -296,8 +298,7 @@ export default function PackOpening() {
          });
       });
 
-      console.log(levelCards);
-      console.log(rarityCards);
+      console.log(attributeCards);
 
       setLevelCards(levelCards);
       setRarityCards(rarityCards);
