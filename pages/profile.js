@@ -135,7 +135,7 @@ export default function Profile( { user } ) {
                                  {/*<p className='text-md'>Wins <span className='text-lg font-semibold text-green-600'>{deck.wins}</span> / Losses <span className='text-lg font-semibold text-red-500'>{deck.losses}</span></p>*/}
                                  <div className='flex items-center gap-2 mt-2'>
                                     <button onClick={() => viewDeck(deck)} className='px-4 py-2 font-semibold bg-green-600 hover:bg-green-500 active:bg-green-400 rounded-lg duration-200 transition-colors'>View</button>
-                                    <button onClick={() => exportDeck(deck)} className='px-4 py-2 font-semibold bg-green-600 hover:bg-green-500 active:bg-green-400 rounded-lg duration-200 transition-colors'>Export</button>
+                                    <button onClick={() => exportDeck(deck.list)} className='px-4 py-2 font-semibold bg-green-600 hover:bg-green-500 active:bg-green-400 rounded-lg duration-200 transition-colors'>Export</button>
                                     <button onClick={() => editDeck(deck)} className='px-4 py-2 font-semibold bg-yellow-500 hover:bg-yellow-400 active:bg-yellow-300 rounded-lg duration-200 transition-colors'>Edit</button>
                                     <button onClick={() => deleteDeck(deck)} className='px-4 py-2 font-semibold bg-red-700 hover:bg-red-600 active:bg-red-500 rounded-lg duration-200 transition-colors'>Delete</button>
                                  </div>
