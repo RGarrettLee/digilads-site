@@ -44,6 +44,23 @@ export default function Page() {
       setOpenView(true);
    }
 
+   function exportDeck(deck) {
+      let exportedDeck = '// Digimon Deck List\n';
+      let exportedEggs = '//Egg Deck\n';
+      deck.forEach((card) => {
+         if (card.type !== 'Digi-Egg') {
+            exportedDeck += `${card.quantity} ${card.name} ${card.id}\n`;
+         } else {
+            exportedEggs += `${card.quantity} ${card.name} ${card.id}\n`;
+         }
+      })
+      exportedDeck += exportedEggs;
+      
+      navigator.clipboard.writeText(exportedDeck);
+
+      window.alert('Copied deck list\n\n' + exportedDeck);
+   }
+
    function viewPack(pack) {
       setPack(pack);
       setOpenPack(true);
@@ -89,6 +106,7 @@ export default function Page() {
                                     <p className='text-md'>Wins <span className='text-lg font-semibold text-green-600'>{deck.wins}</span> / Losses <span className='text-lg font-semibold text-red-500'>{deck.losses}</span></p>
                                     <div className='flex items-center gap-2'>
                                        <button onClick={() => viewDeck(deck)} className='px-4 py-2 font-semibold bg-green-600 hover:bg-green-500 active:bg-green-400 rounded-lg duration-200 transition-colors'>View</button>
+                                       <button onClick={() => exportDeck(deck.list)} className='px-4 py-2 font-semibold bg-green-600 hover:bg-green-500 active:bg-green-400 rounded-lg duration-200 transition-colors'>Export</button>
                                        {/*<button onClick={() => deleteDeck()} className='px-4 py-2 font-semibold bg-red-700 hover:bg-red-600 active:bg-red-500 rounded-lg duration-200 transition-colors'>Delete</button>*/}
                                     </div>
                                  </div>
