@@ -6,7 +6,7 @@ import PackBreakdown from '../components/packBreakdown';
 import supabase from '../db/connection';
 
 export default function Profile( { user } ) {
-   const { full_name, avatar_url, signature_card, decks, packs } = user;
+   const { full_name, avatar_url, signature_card, decks, packs, collection } = user;
    const artAPI = 'https://images.digimoncard.io/images/cards/';
    const [allCards, setAllCards] = useState([]);
    const [openSelect, setOpenSelect] = useState(false);
@@ -15,7 +15,7 @@ export default function Profile( { user } ) {
    const [openPack, setOpenPack] = useState(false);
    const [deck, setDeck] = useState({});
    const [view, setView] = useState({list: []});
-   const [pack, setPack] = useState({});
+   const [savedPack, setPack] = useState({collectedCards: []});
    
    useEffect(() => {
       async function getAllCards() {
@@ -34,7 +34,26 @@ export default function Profile( { user } ) {
       setOpenView(true);
    }
 
-   function viewPack(pack) {
+   async function viewPack(pack) {
+      /*if (pack.collectedCards.length <= 1) { // UNCOMMENT THIS IF SAVED PACK HAS NO SAVED COLLECTED CARD DATA
+         let newCollectedCards = [];
+         let userPacks = user.packs;
+         let savedPack = pack;
+         let index = userPacks.indexOf(pack);
+
+         Object.keys(pack.typeCards).forEach((key) => {
+            pack.typeCards[`${key}`].map((card) => {
+               newCollectedCards.push(card);
+            })
+         });
+
+         savedPack['collectedCards'] = newCollectedCards;
+         userPacks.splice(index, 1);
+         userPacks.push(savedPack);
+   
+         await supabase.from('profiles').update({ packs: userPacks }).eq('full_name', user.full_name);
+      }*/
+
       setPack(pack);
       setOpenPack(true);
    }
@@ -153,7 +172,7 @@ export default function Profile( { user } ) {
                                  <button onClick={() => viewPack(pack)} className='px-4 py-2 font-semibold bg-green-600 hover:bg-green-500 active:bg-green-400 rounded-lg duration-200 transition-colors'>View</button>
                                  <button onClick={() => deletePack(pack)} className='px-4 py-2 font-semibold bg-red-700 hover:bg-red-600 active:bg-red-500 rounded-lg duration-200 transition-colors'>Delete</button>
                               </div>
-                              <PackBreakdown collectedCards={pack.collectedCards} levelCards={pack.levelCards} attributeCards={pack.attributeCards} colourCards={pack.colourCards} typeCards={pack.typeCards} rarityCards={pack.rarityCards} digiTypeCards={pack.digiTypeCards} setName={pack.setName} toggle={openPack} setToggle={setOpenPack} typeLabels={pack.typeLabels} typeData={pack.typeData} user={user} profile={true} />
+                              <PackBreakdown collectedCards={savedPack.collectedCards} levelCards={savedPack.levelCards} attributeCards={savedPack.attributeCards} colourCards={savedPack.colourCards} typeCards={savedPack.typeCards} rarityCards={savedPack.rarityCards} digiTypeCards={savedPack.digiTypeCards} setName={savedPack.setName} toggle={openPack} setToggle={setOpenPack} typeLabels={savedPack.typeLabels} typeData={savedPack.typeData} user={user} profile={true} />
                            </div>
                         ))}
                      </div>

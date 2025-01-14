@@ -23,10 +23,27 @@ export default function PackBreakdown({ collectedCards, levelCards, attributeCar
       await supabase.from('profiles').update({ packs: userPacks }).eq('full_name', user.full_name);
       alert(`Successfully saved ${setName} pack opening to your profile!`);
    }
+   
+   async function saveToCollection() {
+      let userCollection = user.collection;
+
+      collectedCards.forEach((card) => {
+         let cardObj = userCollection.find(x => x.id == card.id);
+         if (cardObj !== undefined) {
+            let pos = userCollection.indexOf(cardObj);
+            userCollection[pos].quantity += card.quantity;
+         } else {
+            userCollection.push(card);
+         }
+      });
+
+      await supabase.from('profiles').update({ collection: userCollection }).eq('full_name', user.full_name);
+      alert(`Successfully saved cards from ${setName} to your card collection`)
+   }
 
    return (
       <>
-         {collectedCards.length === 0 ? (
+         {collectedCards.length !== 0 ? (
             <Dialog as='div' className='relative z-50' open={toggle} onClose={() => setToggle(false)}>
                <div className='fixed inset-0 overflow-y-auto'>
                   <div className='flex flex-col min-w-full min-h-full items-center justify-center gap-4'>
@@ -227,7 +244,7 @@ export default function PackBreakdown({ collectedCards, levelCards, attributeCar
                         {!profile ? (
                            <button onClick={() => savePack()} className='px-4 py-2 bg-green-600 hover:bg-green-500 active:bg-green-400 rounded-lg font-digivolve text-xl'>Save to profile</button>
                         ) : (
-                           <></>
+                           <button onClick={() => saveToCollection()} className='px-4 py-2 bg-green-600 hover:bg-green-500 active:bg-green-400 rounded-lg font-digivolve text-xl'>Add to Collection</button>
                         )}
                         {/* put pack breakdown chart here: just on card type ratios in a pie/doughnut chart*/}
                         <BreakdownGraph typeLabels={typeLabels} typeData={typeData} />
