@@ -194,6 +194,8 @@ export default function PackOpening({ user }) {
          }
       });
 
+      //console.log(collectedCards);
+
       collectedCards.map((card) => {
          if (!attributes.includes(card.attribute)) {
             if (card.type === 'Digimon') {
@@ -320,6 +322,7 @@ export default function PackOpening({ user }) {
 
       console.log(typeData);
 
+      setCollectedCards(collectedCards);
       setLevelCards(levelCards);
       setRarityCards(rarityCards);
       setAttributeCards(attributeCards);
