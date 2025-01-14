@@ -52,7 +52,7 @@ export default function Profile( { user } ) {
 
       if (confirm === pack.setName) {
          if (userPacks.length > 1) {
-            userPacks.split(pos, 1);
+            userPacks.splice(pos, 1);
          } else {
             userPacks.shift();
          }
