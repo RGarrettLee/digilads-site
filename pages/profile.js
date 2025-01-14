@@ -34,7 +34,7 @@ export default function Profile( { user } ) {
       setOpenView(true);
    }
 
-   async function viewPack(pack) {
+   function viewPack(pack) {
       /*if (pack.collectedCards.length <= 1) { // UNCOMMENT THIS IF SAVED PACK HAS NO SAVED COLLECTED CARD DATA
          let newCollectedCards = [];
          let userPacks = user.packs;
@@ -53,6 +53,8 @@ export default function Profile( { user } ) {
    
          await supabase.from('profiles').update({ packs: userPacks }).eq('full_name', user.full_name);
       }*/
+
+      console.log(pack);
 
       setPack(pack);
       setOpenPack(true);
@@ -172,9 +174,9 @@ export default function Profile( { user } ) {
                                  <button onClick={() => viewPack(pack)} className='px-4 py-2 font-semibold bg-green-600 hover:bg-green-500 active:bg-green-400 rounded-lg duration-200 transition-colors'>View</button>
                                  <button onClick={() => deletePack(pack)} className='px-4 py-2 font-semibold bg-red-700 hover:bg-red-600 active:bg-red-500 rounded-lg duration-200 transition-colors'>Delete</button>
                               </div>
-                              <PackBreakdown collectedCards={savedPack.collectedCards} levelCards={savedPack.levelCards} attributeCards={savedPack.attributeCards} colourCards={savedPack.colourCards} typeCards={savedPack.typeCards} rarityCards={savedPack.rarityCards} digiTypeCards={savedPack.digiTypeCards} setName={savedPack.setName} toggle={openPack} setToggle={setOpenPack} typeLabels={savedPack.typeLabels} typeData={savedPack.typeData} user={user} profile={true} />
                            </div>
                         ))}
+                        <PackBreakdown collectedCards={savedPack.collectedCards} levelCards={savedPack.levelCards} attributeCards={savedPack.attributeCards} colourCards={savedPack.colourCards} typeCards={savedPack.typeCards} rarityCards={savedPack.rarityCards} digiTypeCards={savedPack.digiTypeCards} setName={savedPack.setName} toggle={openPack} setToggle={setOpenPack} typeLabels={savedPack.typeLabels} typeData={savedPack.typeData} user={user} profile={true} />
                      </div>
                   </div>
                </div>
